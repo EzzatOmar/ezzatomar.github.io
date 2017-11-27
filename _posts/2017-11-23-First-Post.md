@@ -21,3 +21,9 @@ Let's try to solve this problem using CNN!
 <div id='pic'>
     <canvas width="400" height="300" id="canvas"/>
 </div>
+
+<div id='pic'>
+    <canvas width="400" height="300" id="canvas-new"/>
+</div>
+
+<img id='myImg' />
