@@ -86,6 +86,32 @@ function darken(image){
   });
 }
 
+function detectFace(image){
+  return new Promise(function(resolve, reject){
+    var canvas = document.getElementById('canvas');
+    canvas.height = image.height;
+    canvas.width = image.width;
+    var context = canvas.getContext('2d');
+    context.height = image.height;
+    context.width = image.width;
+    context.drawImage(image, 0, 0, context.width, context.height);
+    var classifier = objectdetect.frontalface;
+    // classifier = objectdetect[e.target.value];
+    detector = new objectdetect.detector(canvas.width, canvas.height, 1.2, classifier);
+    var rects = detector.detect(canvas, 1);
+    
+    // Draw rectangles around detected faces:
+    for (var i = 0; i < rects.length; ++i) {
+      var coord = rects[i];
+      context.beginPath();
+      context.lineWidth = 1;
+      context.strokeStyle = 'rgba(0, 255, 255, 0.75)';
+      context.rect(coord[0], coord[1], coord[2], coord[3]);
+      context.stroke();
+    }
+  });
+}
+
 function resize(image, newWidth, newHeigth){
   return new Promise(function(resolve, reject){
     var canvas = document.createElement("canvas");
@@ -110,8 +136,11 @@ function loadDefaultImage(e){
   // get image
   getLocalImage(e)
   .then(function(image){
+    return detectFace(image);
+  })
+  .then(function(image){
     console.log(image.width, image.height);
-    drawImgTo('canvas', image);
+    // drawImgTo('canvas', image);
     console.log(image.width, image.height);
     // return darken(image);
     return resize(image, 48, 48);
