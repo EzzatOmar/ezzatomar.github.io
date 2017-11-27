@@ -26,96 +26,6 @@ function getLocalImage(e){
     });
 }
 
-function drawImgTo(canvasId, image,image2, imageData){
-    return new Promise(function(resolve, reject){
-      // if(!image){
-      //   reject('no image provided');
-      // } 
-      if(image){
-        console.log('draw1 to ' + canvasId);
-        console.log(image);
-        var ctx = document.getElementById(canvasId).getContext('2d');
-        var resizeFactor = (200 / image.width);
-        ctx.width = image.width * resizeFactor;
-        ctx.height = image.height * resizeFactor;
-        ctx.drawImage(image, 0, 0, ctx.width, ctx.height);
-        resolve();
-      }
-
-      if(image2){
-        console.log('draw2 to ' + canvasId);
-        // var ctx = document.getElementById(canvasId).getContext('2d');
-        // var resizeFactor = (200 / image.width);
-        // ctx.width = image.width * resizeFactor;
-        // ctx.height = image.height * resizeFactor;
-        // ctx.drawImage(image, 0, 0, ctx.width, ctx.height);
-        // var data = ctx.getImageData(0, 0, ctx.width, ctx.height);
-        // for(var i = 0; i<ctx.width*ctx.height*4;i++)
-        //   data[i] -= 60;
-        // ctx.putImageData(data, 0, 0);
-        // resolve();
-        // var canas = document.createElement(canvasId);
-        var canvas = document.getElementById(canvasId);
-        var ctx = canvas.getContext("2d");
-        var resizeFactor = (200 / image2.width);
-        ctx.width = image2.width * resizeFactor;
-        ctx.height = image2.height * resizeFactor;
-        // ctx.width = image2.width;
-        // ctx.height = image2.height;
-        ctx.drawImage(image2,0,0, ctx.width, ctx.height);
-        var imgd = ctx.getImageData(0, 0, ctx.width, ctx.height);
-        var pix = imgd.data;
-
-        for (var i = 0, n = pix.length; i <n; i += 4) {
-          pix[i + 0] -= 150;
-          pix[i + 1] -= 150;
-          pix[i + 2] -= 150;
-          // imgd[i] -= 50;
-        }          
-        ctx.putImageData(imgd, 0, 0);
-        // var savedImageData = document.getElementById("newImg");
-        // savedImageData.src = canvas.toDataURL("image/png");
-        resolve();
-        // var base64 = extractBase64FromString(image2.src);
-        // var arr = base64ToArrayBuffer(base64);
-        // console.log(arr);
-        // console.log(arr[0]);
-        // for(var i = 0; i<1000; i++)
-        //   arr[i] -= 150;
-        // console.log(arr);
-        // console.log(arr.slice(0,100));
-        // for(var i = 500; i<1000; i++){
-        //    arr[i] -= 50;
-        // }
-        // console.log(arr.slice(0,10));
-        // var src = 'data:image/jpeg;base64,' + btoa(String.fromCharCode.apply(null, arr));
-        // console.log(src);
-        // var imgNew = new Image();
-        // imgNew.onload = function() {
-        //   console.log('onload');
-        //   drawImgTo(canvasId, imgNew);
-        //   // resolve(imgNew);
-        // }
-        // imgNew.src = src;
-        // console.log('end', imgNew.src);
-        // resolve([img, inputData]);
-      }
-
-      if(imageData){
-        var ctx = document.getElementById(canvasId).getContext('2d');
-        var resizeFactor = (200 / imageData.width);
-        ctx.width = imageData.width * resizeFactor;
-        ctx.height = imageData.height * resizeFactor;
-        ctx.putImageData(imageData.data, 0, 0);
-        // ctx.putImageData(context.getImageData(0, 0, context.width, context.height), 0, 0);
-        // ctx.drawImage(image, 0, 0, ctx.widimageth, ctx.height);
-        resolve();
-
-      }
-    });
-
-}
-
 function base64ToArrayBuffer(base64) {
   var binary_string =  window.atob(base64);
   var len = binary_string.length;
@@ -132,61 +42,75 @@ function extractBase64FromString(str){
   return result[0];
 }
 
+function drawImgTo(canvasId, image){
+    return new Promise(function(resolve, reject){
+      if(!image){
+        reject('no image provided');
+      } 
+      console.log('draw1 to ' + canvasId);
+      console.log(image);
+      var ctx = document.getElementById(canvasId).getContext('2d');
+      var resizeFactor = (200 / image.width);
+      ctx.width = image.width * resizeFactor;
+      ctx.height = image.height * resizeFactor;
+      ctx.drawImage(image, 0, 0, ctx.width, ctx.height);
+      resolve();
+    });
+}
+
 function darken(image){
   return new Promise(function(resolve, reject){
     var resizeFactor = (200 / image.width);
     var canvas = document.createElement("canvas");
-    // var canvas = document.getElementById("canvas-new");
     canvas.height = image.height;
     canvas.width = image.width;
     var ctx = canvas.getContext("2d");
+    ctx.height = image.height;
+    ctx.width = image.width;
     ctx.drawImage(image,0,0);
-    console.log(ctx);
-    // var imgd = ctx.getImageData(0, 0, ctx.width, ctx.height);
-    // var pix = imgd.data;
+    var imgd = ctx.getImageData(0, 0, ctx.width, ctx.height);
+    var pix = imgd.data;
 
-    // for (var i = 0, n = pix.length; i <n; i += 4) {
-    //   pix[i + 0] -= 150;
-    //   pix[i + 1] -= 150;
-    //   pix[i + 2] -= 150;
-    //   // imgd[i] -= 50;
-    // }          
-    // ctx.putImageData(imgd, 0, 0);
-    // var savedImageData = document.getElementById("newImg");
+    for (var i = 0, n = pix.length; i <n; i += 4) {
+      pix[i + 0] -= 150;
+      pix[i + 1] -= 150;
+      pix[i + 2] -= 150;
+      imgd[i] -= 150;
+    }          
+    ctx.putImageData(imgd, 0, 0);
     var img = new Image(ctx.width, ctx.height);
-    // var img = new Image(200,200);
     img.onload = function() {
-        // console.log('onload w h ', img.width, img.height, pix.length);
         resolve(img);
     }
     img.src = canvas.toDataURL('image/jpeg');
-
-    var myImg = document.getElementById('myImg');
-    myImg.src = image.src;
   });
 }
 
 function resize(image){
   return new Promise(function(resolve, reject){
-    if(image){
-      var canvas = document.createElement("canvas");
-      var ctx = canvas.getContext('2d');
-      ctx.width = image.width;
-      ctx.height = image.height;
-      ctx.drawImage(image, 0, 0, ctx.width, ctx.height);
-      console.log(image.width, image.height);
-      console.log(ctx.width, ctx.height);
-      var imageData = ctx.getImageData(0, 0, ctx.width, ctx.height);
-      // for(var i = 0; i < ctx.height * ctx.width * 3; i++)
-      //   imageData[i] -= 50;
-      ctx.putImageData(imageData, 0, 0);
-      resolve({data: imageData, height: ctx.height, width: ctx.width});
-      // var img = new Image();
-      // img.onload = function() {
-      //     resolve(img);
-      // }
-      // img.src = canvas.toDataURL('image/jpeg');
-    } 
+    var resizeFactor = (200 / image.width);
+    var canvas = document.createElement("canvas");
+    canvas.height = image.height;
+    canvas.width = image.width;
+    var ctx = canvas.getContext("2d");
+    ctx.height = image.height;
+    ctx.width = image.width;
+    ctx.drawImage(image,0,0);
+    var imgd = ctx.getImageData(0, 0, ctx.width, ctx.height);
+    var pix = imgd.data;
+
+    for (var i = 0, n = pix.length; i <n; i += 4) {
+      pix[i + 0] -= 150;
+      pix[i + 1] -= 150;
+      pix[i + 2] -= 150;
+      imgd[i] -= 150;
+    }          
+    ctx.putImageData(imgd, 0, 0);
+    var img = new Image(ctx.width, ctx.height);
+    img.onload = function() {
+        resolve(img);
+    }
+    img.src = canvas.toDataURL('image/jpeg');
   });
 }
 
@@ -194,12 +118,11 @@ function loadDefaultImage(e){
   // get image
   getLocalImage(e)
   .then(function(image){
-    // console.log(image);
     console.log(image.width, image.height);
     drawImgTo('canvas', image);
     console.log(image.width, image.height);
-    return darken(image);
-    // return resize(image);
+    // return darken(image);
+    return resize(image);
   })
   .then(function(image){
     // console.log(img[0].src);
