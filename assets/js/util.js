@@ -1,12 +1,19 @@
-function fn(){
-  alert("fn()");
-  document.getElementById("demo").innerHTML = "Hello World!";
-}
+"use strict"
 
+var scope = {};
 window.onload = function() {
   var input = document.getElementById('input');
-  input.addEventListener('change', loadDefaultImage, false);
+  input.addEventListener('change', loadFile, false);
+  console.log("window loaded");
+  const modelPath = '/assets/keras-models/model4Untouched.json';
+  const weightsPath = '/assets/keras-models/model4Untouched_weights.buf';
+  const metaDataPath = '/assets/keras-models/model4Untouched_metadata.json';
+  scope.kerasManager = new KerasManager(modelPath, weightsPath, metaDataPath);
+  var emotions = ['Angry', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral'];
+  scope.kerasManager.outputMap = emotions;
+  
 }
+
 
 function getLocalImage(e){
   return new Promise(function(resolve, reject){
@@ -42,21 +49,47 @@ function extractBase64FromString(str){
   return result[0];
 }
 
-function drawImgTo(canvasId, image){
+function drawImgTo(canvasId, image, width, height, imageData){
+    //TODO: edgecase imageData without width and height not working
+    //TODO: Refactor resizeFactor
     return new Promise(function(resolve, reject){
-      if(!image){
-        reject('no image provided');
+      if(!image && !imageData){
+        reject('no image or imageData provided');
       } 
       // console.log('draw1 to ' + canvasId);
       // console.log(image);
-      var resizeFactor = (200 / image.width);
       var canvas = document.getElementById(canvasId);
-      canvas.width = image.width * resizeFactor;
-      canvas.height = image.height * resizeFactor;
+      if(width){
+        canvas.width = width;
+      }else{
+        var resizeFactor = (200 / image.width);
+        canvas.width = image.width * resizeFactor;
+      }
+      if(height){
+        canvas.height = height;
+      }else{
+        var resizeFactor = (200 / image.width);
+        canvas.height = image.height * resizeFactor;
+      }
       var ctx = canvas.getContext('2d');
-      ctx.width = image.width * resizeFactor;
-      ctx.height = image.height * resizeFactor;
-      ctx.drawImage(image, 0, 0, ctx.width, ctx.height);
+      if(width){
+        ctx.width = width;
+      }else{
+        var resizeFactor = (200 / image.width);
+        ctx.width = image.width * resizeFactor;
+      }
+      if(height){
+        ctx.height = height;
+      }else{
+        var resizeFactor = (200 / image.width);
+        ctx.height = image.height * resizeFactor;
+      }
+      if(image){
+        ctx.drawImage(image, 0, 0, ctx.width, ctx.height);
+      } 
+      if(imageData){
+        ctx.putImageData(imageData, 0, 0);
+      }
       resolve();
     });
 }
@@ -100,7 +133,7 @@ function detectFace(image){
     context.drawImage(image, 0, 0, context.width, context.height);
     // var classifier = objectdetect.frontalface;
     var classifier = objectdetect.frontalface_alt;
-    detector = new objectdetect.detector(canvas.width, canvas.height, 1.2, classifier);
+    var detector = new objectdetect.detector(canvas.width, canvas.height, 1.2, classifier);
     var rects = detector.detect(canvas, 1, 1);
     // find the greates rect
     var greatest = 0;
@@ -238,6 +271,44 @@ function loadDefaultImage(e){
   // resize
   // predict
   // obj[prop] = Object.assign(obj[prop], {Image: 'Test'});
+}
+
+function loadFile(event){
+  // load image file
+  getLocalImage(event)
+  .then(detectFace)
+  .then((faceImage)=>{
+    drawImgTo('canvas-to-detect', faceImage);
+    return resize(faceImage, 48, 48);
+  })
+  .then(face48 => {
+    drawImgTo('canvas-temp', face48, 48, 48);
+    testMe();    
+    getGrayscaleData(face48)
+    .then(floatArr => {
+      console.log('floatArr', floatArr);
+      var intArr = [];
+      for(var i = 0; i<48*48; i++){
+        var Y = (floatArr[i]*255).toFixed(0);
+        // Y = i%48;
+        intArr.push(Y);
+        intArr.push(Y);
+        intArr.push(Y);
+        intArr.push(255);
+      }
+      // Display floatArr as image
+      var uInt8C = new Uint8ClampedArray(intArr);
+      var imageData = new ImageData(uInt8C, 48, 48);
+      // var myImage = new Image(100, 200);
+      // myImage.src = 'picture.jpg';
+      drawImgTo('canvas-temp', undefined, 48, 48, imageData);
+      return scope.kerasManager.predictP(floatArr);
+    })
+    .then(prediction => {
+      console.log('Prediction', prediction);
+    });
+
+  });
 }
 
 function print(){

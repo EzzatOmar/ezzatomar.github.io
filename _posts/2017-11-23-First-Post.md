@@ -7,14 +7,14 @@ categories: jekyll update
 
 Teaching machines to detect your emotions is fasinating and scary at the same time. Most of us can easily recognize the mood of someone by looking at their facial expression, but how this is done is a different story.  
 To explain why we know that someone is sad or angry is hard and not trivial at all.  
-Let's try to solve this problem using CNN!
+Let's to solve this problem using CNN!
 ---
 
 
 ## Demo
 
 <script> window.myScope = {}; </script>
-<button style="position: relative; bottom: 15px; left: 50%; margin-left: -60px; width: 120px; font-size: 20px;" onclick="loadDefaultImage(window, 'myScope')">Recognize</button>
+<button style="position: relative; bottom: 15px; left: 50%; margin-left: -60px; width: 120px; font-size: 20px;" onclick="loadFile(window, 'myScope')">Recognize</button>
 
 <button style="position: relative; bottom: 15px; left: 50%; margin-left: -60px; width: 120px; font-size: 20px;" onclick="print()">Print</button>
 <input type="file" id="input"/>
@@ -23,7 +23,17 @@ Let's try to solve this problem using CNN!
 </div>
 
 <div id='pic'>
-    <canvas width="400" height="300" id="canvas-new"/>
+    <canvas width="400" height="300" id="canvas-to-detect"/>
 </div>
+
+<div id='pic'>
+    <canvas width="400" height="300" id="canvas-temp"/>
+</div>
+
+<div id='pic'>
+    <canvas width="400" height="300" id="canvas-hidden" hidden/>
+</div>
+
+<p id='myText'></p>
 
 <img id='myImg' />
