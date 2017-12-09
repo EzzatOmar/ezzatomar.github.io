@@ -11,7 +11,7 @@ window.onload = function() {
   scope.kerasManager = new KerasManager(modelPath, weightsPath, metaDataPath);
   var emotions = ['Angry', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral'];
   scope.kerasManager.outputMap = emotions;
-  
+
 }
 
 
@@ -306,6 +306,23 @@ function loadFile(event){
     })
     .then(prediction => {
       console.log('Prediction', prediction);
+      //TODO: check if there is an outputmap, else don't show bar
+      var yArr = []; 
+      // prediction.output.forEach(item => {
+      //   return yArr.push(yArr);
+      // });
+      for(var i = 0; i<prediction.output.length; i++)
+        yArr.push(prediction.output[i]);
+      
+      var data = [
+        {
+          x: scope.kerasManager.outputMap,
+          y: yArr,
+          type: 'bar'
+        }
+      ];
+  
+      Plotly.newPlot('graph', data);
     });
 
   });

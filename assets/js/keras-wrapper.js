@@ -23,6 +23,11 @@ class KerasManager {
     this._outputMap = map;
   }
 
+  get outputMap(){
+    // TODO: type check
+    return this._outputMap;
+  }
+
   predictP(inputdata){
     //TODO: keyword should be dynamic, if the model is sequential
     // set it to input, else, lookup the model.json file and find the key name
@@ -33,16 +38,12 @@ class KerasManager {
     }
     return this.model.ready()
     .then(()=>{
-      
-      this.model.predict(inputDataStruct)
+      return this.model.predict(inputDataStruct)
       .then(output => {
         //TODO: map output if outputmap exists
-        console.log('output', output);
         return output;
-      });;
+      });
     })
     .catch(err => {console.log("ERROR:", err);});
-
-
     }
 }
