@@ -2,8 +2,8 @@
 
 var scope = {};
 window.onload = function() {
-  var input = document.getElementById('input');
-  input.addEventListener('change', loadFile, false);
+  // var input = document.getElementById('input');
+  // input.addEventListener('change', loadFile, false);
   console.log("window loaded");
   const modelPath = '/assets/keras-models/model4Untouched.json';
   const weightsPath = '/assets/keras-models/model4Untouched_weights.buf';
@@ -352,6 +352,8 @@ function loadFile(event){
   
       Plotly.newPlot('graph', data);
     });
+  });
+}
 
 function runFaceRecognition(event){
   // load image file

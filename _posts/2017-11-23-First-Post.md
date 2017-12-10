@@ -23,14 +23,14 @@ Lets to solve this problem using CNN!
 
 <button style="position: relative; bottom: 15px; left: 50%; margin-left: -60px; width: 120px; font-size: 20px;" onclick="runFaceRecognition(window, 'myScope')">Recognize</button>
 
-<video id="video" width="640" height="480" autoplay></video>
-<canvas width="400" height="300" id="canvas"/>
+<div><video id="video" width="640" height="480" autoplay></video></div>
+<div><canvas width="400" height="300" id="canvas"/></div>
 
-<canvas width="400" height="300" id="canvas-to-detect"/>
+<div><canvas width="400" height="300" id="canvas-to-detect"/></div>
 
-<canvas width="400" height="300" id="canvas-temp"/>
+<div><canvas width="400" height="300" id="canvas-temp"/></div>
 
-<canvas width="400" height="300" id="canvas-hidden" hidden/>
+<div><canvas width="400" height="300" id="canvas-hidden" hidden/></div>
 
 <p id='myText'></p>
 <div id='graph'></div>
