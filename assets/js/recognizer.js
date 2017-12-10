@@ -21,17 +21,19 @@ window.onload = function() {
 }
 
 function getImageFromCam(video){
-  var canvas = document.createElement("canvas");
-  var ctx = canvas.getContext("2d");
-  ctx.width = 640;
-  ctx.width = 480;
-  ctx.drawImage(video, 0, 0, 640, 480);
+  return new Promise((resolve, reject) =>{
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
+    ctx.width = 640;
+    ctx.width = 480;
+    ctx.drawImage(video, 0, 0, 640, 480);
 
-  var img = new Image(ctx.width, ctx.height);
-  img.onload = function() {
-      resolve(img);
-  }
-  img.src = canvas.toDataURL('image/jpeg');
+    var img = new Image(ctx.width, ctx.height);
+    img.onload = function() {
+        resolve(img);
+    }
+    img.src = canvas.toDataURL('image/jpeg');
+  });
 }
 
 function classify(image){
