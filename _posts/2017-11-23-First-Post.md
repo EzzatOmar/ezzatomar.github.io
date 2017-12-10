@@ -5,9 +5,11 @@ date:   2017-11-23 20:49:01 +0000
 categories: jekyll update
 ---
 
-Teaching machines to detect your emotions is fasinating and scary at the same time. Most of us can easily recognize the mood of someone by looking at their facial expression, but how this is done is a different story.  
-To explain why we know that someone is sad or angry is hard and not trivial at all.  
-Let's to solve this problem using CNN!
+Humans can easily recognize the mood of a person by looking at them.  
+Explaining why we know that someone is sad or angry is hard and not trivial at all.  
+To teach machines emotion detection, we simply need to feed a neural network with lots of facial expressions.  
+Lets to solve this problem using CNN!
+
 ---
 
 
@@ -19,25 +21,16 @@ Let's to solve this problem using CNN!
 </style>
 
 
-<button style="position: relative; bottom: 15px; left: 50%; margin-left: -60px; width: 120px; font-size: 20px;" onclick="loadFile(window, 'myScope')">Recognize</button>
+<button style="position: relative; bottom: 15px; left: 50%; margin-left: -60px; width: 120px; font-size: 20px;" onclick="runFaceRecognition(window, 'myScope')">Recognize</button>
 
-<button style="position: relative; bottom: 15px; left: 50%; margin-left: -60px; width: 120px; font-size: 20px;" onclick="print()">Print</button>
-<input type="file" id="input"/>
-<div id='pic'>
-    <canvas width="400" height="300" id="canvas"/>
-</div>
+<video id="video" width="640" height="480" autoplay></video>
+<canvas width="400" height="300" id="canvas"/>
 
-<div id='pic'>
-    <canvas width="400" height="300" id="canvas-to-detect"/>
-</div>
+<canvas width="400" height="300" id="canvas-to-detect"/>
 
-<div id='pic'>
-    <canvas width="400" height="300" id="canvas-temp"/>
-</div>
+<canvas width="400" height="300" id="canvas-temp"/>
 
-<div id='pic'>
-    <canvas width="400" height="300" id="canvas-hidden" hidden/>
-</div>
+<canvas width="400" height="300" id="canvas-hidden" hidden/>
 
 <p id='myText'></p>
 <div id='graph'></div>
@@ -107,4 +100,11 @@ def createModel():
                   loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 ```
+
+## Result
+
+The overall accuracy is close to 50% for the testing set.
+<img src='/assets/images/Results.png' style='width: 100%'/>
+<img src='/assets/images/confusionMatrix.png' style='width: 100%'/>
+
 
