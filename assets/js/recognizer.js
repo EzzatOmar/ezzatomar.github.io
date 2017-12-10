@@ -1,4 +1,3 @@
-
 window.onload = function() {
   const modelPath = '/assets/keras-models/model4Untouched.json';
   const weightsPath = '/assets/keras-models/model4Untouched_weights.buf';
@@ -33,62 +32,6 @@ function getImageFromCam(video){
       resolve(img);
   }
   img.src = canvas.toDataURL('image/jpeg');
-}
-
-function runFaceRecognition(event){
-  // load image file
-  
-  getImageFromCam(scope.video)
-  .then(detectFace)
-  .then((faceImage)=>{
-    drawImgTo('canvas-to-detect', faceImage);
-    return resize(faceImage, 48, 48);
-  })
-  .then(face48 => {
-    drawImgTo('canvas-temp', face48, 48, 48);
-    testMe();    
-    getGrayscaleData(face48)
-    .then(floatArr => {
-      console.log('floatArr', floatArr);
-      var intArr = [];
-      for(var i = 0; i<48*48; i++){
-        var Y = (floatArr[i]*255).toFixed(0);
-        // Y = i%48;
-        intArr.push(Y);
-        intArr.push(Y);
-        intArr.push(Y);
-        intArr.push(255);
-      }
-      // Display floatArr as image
-      var uInt8C = new Uint8ClampedArray(intArr);
-      var imageData = new ImageData(uInt8C, 48, 48);
-      // var myImage = new Image(100, 200);
-      // myImage.src = 'picture.jpg';
-      drawImgTo('canvas-temp', undefined, 48, 48, imageData);
-      return scope.kerasManager.predictP(floatArr);
-    })
-    .then(prediction => {
-      console.log('Prediction', prediction);
-      //TODO: check if there is an outputmap, else don't show bar
-      var yArr = []; 
-      // prediction.output.forEach(item => {
-      //   return yArr.push(yArr);
-      // });
-      for(var i = 0; i<prediction.output.length; i++)
-        yArr.push(prediction.output[i]);
-      
-      var data = [
-        {
-          x: scope.kerasManager.outputMap,
-          y: yArr,
-          type: 'bar'
-        }
-      ];
-  
-      Plotly.newPlot('graph', data);
-    });
-
-  });
 }
 
 function classify(image){
@@ -178,5 +121,61 @@ function detectFace(image){
     }
     img.src = canvas.toDataURL('image/jpeg');
  
+  });
+}
+
+function runFaceRecognition(event){
+  // load image file
+  
+  getImageFromCam(scope.video)
+  .then(detectFace)
+  .then((faceImage)=>{
+    drawImgTo('canvas-to-detect', faceImage);
+    return resize(faceImage, 48, 48);
+  })
+  .then(face48 => {
+    drawImgTo('canvas-temp', face48, 48, 48);
+    testMe();    
+    getGrayscaleData(face48)
+    .then(floatArr => {
+      console.log('floatArr', floatArr);
+      var intArr = [];
+      for(var i = 0; i<48*48; i++){
+        var Y = (floatArr[i]*255).toFixed(0);
+        // Y = i%48;
+        intArr.push(Y);
+        intArr.push(Y);
+        intArr.push(Y);
+        intArr.push(255);
+      }
+      // Display floatArr as image
+      var uInt8C = new Uint8ClampedArray(intArr);
+      var imageData = new ImageData(uInt8C, 48, 48);
+      // var myImage = new Image(100, 200);
+      // myImage.src = 'picture.jpg';
+      drawImgTo('canvas-temp', undefined, 48, 48, imageData);
+      return scope.kerasManager.predictP(floatArr);
+    })
+    .then(prediction => {
+      console.log('Prediction', prediction);
+      //TODO: check if there is an outputmap, else don't show bar
+      var yArr = []; 
+      // prediction.output.forEach(item => {
+      //   return yArr.push(yArr);
+      // });
+      for(var i = 0; i<prediction.output.length; i++)
+        yArr.push(prediction.output[i]);
+      
+      var data = [
+        {
+          x: scope.kerasManager.outputMap,
+          y: yArr,
+          type: 'bar'
+        }
+      ];
+  
+      Plotly.newPlot('graph', data);
+    });
+
   });
 }
