@@ -47,7 +47,6 @@ function getLocalImage(e){
 
 function getImageFromCam(video){
   var canvas = document.createElement("canvas");
-h
   context.drawImage(video, 0, 0, 640, 480);
   var ctx = canvas.getContext("2d");
   ctx.width = newWidth;

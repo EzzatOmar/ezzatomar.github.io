@@ -17,6 +17,8 @@ Lets to solve this problem using CNN!
 
 <script> window.myScope = {}; </script>
 
+<script src="/assets/js/recognizer.js"></script>
+
 <style>
 </style>
 
@@ -32,7 +34,6 @@ Lets to solve this problem using CNN!
 
 <div><canvas width="400" height="300" id="canvas-hidden" hidden/></div>
 
-<p id='myText'></p>
 <div id='graph'></div>
 <img id='myImg' />
 
