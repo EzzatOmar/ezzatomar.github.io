@@ -88,6 +88,7 @@ function classify(image){
 }
 
 function detectFace(image){
+  drawImgTo('canvas-temp', image, image.width, image.height);
   return new Promise(function(resolve, reject){
     var canvas = document.createElement('canvas');
     canvas.height = image.height;
