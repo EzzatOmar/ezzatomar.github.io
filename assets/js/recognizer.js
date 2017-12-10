@@ -23,10 +23,9 @@ window.onload = function() {
 
 function getImageFromCam(video){
   var canvas = document.createElement("canvas");
-  context.drawImage(video, 0, 0, 640, 480);
   var ctx = canvas.getContext("2d");
-  ctx.width = newWidth;
-  ctx.height = newHeigth;
+  ctx.width = 640;
+  ctx.width = 480;
   ctx.drawImage(video, 0, 0, 640, 480);
 
   var img = new Image(ctx.width, ctx.height);
