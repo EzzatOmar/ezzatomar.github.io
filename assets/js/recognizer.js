@@ -34,7 +34,7 @@ function getImageFromCam(video){
     var tempCanvas = document.getElementById('canvas-to-detect');
     // tempCanvas.width = 640;
     // tempCanvas.heigth = 480;
-    var ctx2 = canvas.getContext("2d");
+    var ctx2 = tempCanvas.getContext("2d");
     ctx2.width = 640;
     ctx2.width = 480;
     ctx2.drawImage(video, 0, 0, video.width, video.height);
