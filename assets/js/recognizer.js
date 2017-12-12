@@ -28,6 +28,15 @@ function getImageFromCam(video){
     ctx.width = 480;
     ctx.drawImage(video, 0, 0, 640, 480);
 
+    console.log("-----------");
+    console.log(video);
+    var tempCanvas = document.getElementById('canvas-temp');
+    tempCanvas.width = 640;
+    tempCanvas.heigth = 480;
+    var ctx2 = canvas.getContext("2d");
+    // ctx.width = 640;
+    // ctx.width = 480;
+    ctx2.drawImage(video, 0, 0, video.width, video.height);
     var img = new Image(ctx.width, ctx.height);
     img.onload = function() {
         resolve(img);
@@ -88,7 +97,7 @@ function classify(image){
 }
 
 function detectFace(image){
-  drawImgTo('canvas-temp', image, image.width, image.height);
+  // drawImgTo('canvas-temp', image, image.width, image.height);
   return new Promise(function(resolve, reject){
     var canvas = document.createElement('canvas');
     canvas.height = image.height;
@@ -133,12 +142,12 @@ function runFaceRecognition(event){
   getImageFromCam(scope.video)
   .then(detectFace)
   .then((faceImage)=>{
-    drawImgTo('canvas-to-detect', faceImage);
+    // drawImgTo('canvas-to-detect', faceImage);
     return resize(faceImage, 48, 48);
   })
   .then(face48 => {
-    drawImgTo('canvas-temp', face48, 48, 48);
-    testMe();    
+    // drawImgTo('canvas-temp', face48, 48, 48);
+    // testMe();    
     getGrayscaleData(face48)
     .then(floatArr => {
       console.log('floatArr', floatArr);
