@@ -18,7 +18,7 @@ window.onload = function() {
   }
   scope.video = video;
 
-  console.log('update', 0);
+  console.log('update', 1);
 }
 
 function getImageFromCam(video){
@@ -31,12 +31,12 @@ function getImageFromCam(video){
 
     console.log("-----------");
     console.log(video);
-    var tempCanvas = document.getElementById('canvas');
+    var tempCanvas = document.getElementById('canvas-to-detect');
     // tempCanvas.width = 640;
     // tempCanvas.heigth = 480;
     var ctx2 = canvas.getContext("2d");
-    ctx.width = 640;
-    ctx.width = 480;
+    ctx2.width = 640;
+    ctx2.width = 480;
     ctx2.drawImage(video, 0, 0, video.width, video.height);
     var img = new Image(ctx.width, ctx.height);
     img.onload = function() {
