@@ -18,6 +18,7 @@ window.onload = function() {
   }
   scope.video = video;
 
+  console.log('update', 0);
 }
 
 function getImageFromCam(video){
@@ -30,12 +31,12 @@ function getImageFromCam(video){
 
     console.log("-----------");
     console.log(video);
-    var tempCanvas = document.getElementById('canvas-temp');
-    tempCanvas.width = 640;
-    tempCanvas.heigth = 480;
+    var tempCanvas = document.getElementById('canvas');
+    // tempCanvas.width = 640;
+    // tempCanvas.heigth = 480;
     var ctx2 = canvas.getContext("2d");
-    // ctx.width = 640;
-    // ctx.width = 480;
+    ctx.width = 640;
+    ctx.width = 480;
     ctx2.drawImage(video, 0, 0, video.width, video.height);
     var img = new Image(ctx.width, ctx.height);
     img.onload = function() {
@@ -122,6 +123,7 @@ function detectFace(image){
       }
     }
     // console.log(rects[greatest][2],rects[greatest][3])
+    if (rects[greatest] === undefined) return reject('no face found');
     canvas.width = context.width = rects[greatest][2];
     canvas.height = context.height = rects[greatest][3];
     context.drawImage(image, rects[greatest][0], rects[greatest][1], rects[greatest][2], rects[greatest][3],
