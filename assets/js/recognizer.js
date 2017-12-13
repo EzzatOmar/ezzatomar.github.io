@@ -18,26 +18,20 @@ window.onload = function() {
   }
   scope.video = video;
 
-  console.log('update', 1);
+  console.log('update', 2);
 }
 
 function getImageFromCam(video){
   return new Promise((resolve, reject) =>{
-    var canvas = document.createElement("canvas");
-    var ctx = canvas.getContext("2d");
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
     ctx.width = 640;
-    ctx.width = 480;
+    ctx.height = 480;
     ctx.drawImage(video, 0, 0, 640, 480);
 
     console.log("-----------");
     console.log(video);
-    var tempCanvas = document.getElementById('canvas-to-detect');
-    // tempCanvas.width = 640;
-    // tempCanvas.heigth = 480;
-    var ctx2 = tempCanvas.getContext("2d");
-    ctx2.width = 640;
-    ctx2.width = 480;
-    ctx2.drawImage(video, 0, 0, video.width, video.height);
+    drawImageToP('canvas-snapshot', video, 640, 480);
     var img = new Image(ctx.width, ctx.height);
     img.onload = function() {
         resolve(img);
@@ -97,6 +91,7 @@ function classify(image){
   });
 }
 
+// TODO: check what is drawn
 function detectFace(image){
   // drawImgTo('canvas-temp', image, image.width, image.height);
   return new Promise(function(resolve, reject){
@@ -142,54 +137,54 @@ function runFaceRecognition(event){
   // load image file
   
   getImageFromCam(scope.video)
-  .then(detectFace)
+    .then(detectFace)
   .then((faceImage)=>{
+    return drawImageToP('canvas-to-detect', faceImage, faceImage.width, faceImage.height);
     // drawImgTo('canvas-to-detect', faceImage);
-    return resize(faceImage, 48, 48);
-  })
-  .then(face48 => {
-    // drawImgTo('canvas-temp', face48, 48, 48);
-    // testMe();    
-    getGrayscaleData(face48)
-    .then(floatArr => {
-      console.log('floatArr', floatArr);
-      var intArr = [];
-      for(var i = 0; i<48*48; i++){
-        var Y = (floatArr[i]*255).toFixed(0);
-        // Y = i%48;
-        intArr.push(Y);
-        intArr.push(Y);
-        intArr.push(Y);
-        intArr.push(255);
-      }
-      // Display floatArr as image
-      var uInt8C = new Uint8ClampedArray(intArr);
-      var imageData = new ImageData(uInt8C, 48, 48);
-      // var myImage = new Image(100, 200);
-      // myImage.src = 'picture.jpg';
-      drawImgTo('canvas-temp', undefined, 48, 48, imageData);
-      return scope.kerasManager.predictP(floatArr);
-    })
-    .then(prediction => {
-      console.log('Prediction', prediction);
-      //TODO: check if there is an outputmap, else don't show bar
-      var yArr = []; 
-      // prediction.output.forEach(item => {
-      //   return yArr.push(yArr);
-      // });
-      for(var i = 0; i<prediction.output.length; i++)
-        yArr.push(prediction.output[i]);
-      
-      var data = [
-        {
-          x: scope.kerasManager.outputMap,
-          y: yArr,
-          type: 'bar'
-        }
-      ];
-  
-      Plotly.newPlot('graph', data);
-    });
-
+    // return resize(faceImage, 48, 48);
   });
+  // .then(face48 => {
+  //   // drawImgTo('canvas-temp', face48, 48, 48);
+  //   // testMe();    
+  //   getGrayscaleData(face48)
+  //   .then(floatArr => {
+  //     console.log('floatArr', floatArr);
+  //     var intArr = [];
+  //     for(var i = 0; i<48*48; i++){
+  //       var Y = (floatArr[i]*255).toFixed(0);
+  //       // Y = i%48;
+  //       intArr.push(Y);
+  //       intArr.push(Y);
+  //       intArr.push(Y);
+  //       intArr.push(255);
+  //     }
+  //     // Display floatArr as image
+  //     var uInt8C = new Uint8ClampedArray(intArr);
+  //     var imageData = new ImageData(uInt8C, 48, 48);
+  //     // var myImage = new Image(100, 200);
+  //     // myImage.src = 'picture.jpg';
+  //     drawImgTo('canvas-temp', undefined, 48, 48, imageData);
+  //     return scope.kerasManager.predictP(floatArr);
+  //   })
+  //   .then(prediction => {
+  //     console.log('Prediction', prediction);
+  //     //TODO: check if there is an outputmap, else don't show bar
+  //     var yArr = []; 
+  //     // prediction.output.forEach(item => {
+  //     //   return yArr.push(yArr);
+  //     // });
+  //     for(var i = 0; i<prediction.output.length; i++)
+  //       yArr.push(prediction.output[i]);
+      
+  //     var data = [
+  //       {
+  //         x: scope.kerasManager.outputMap,
+  //         y: yArr,
+  //         type: 'bar'
+  //       }
+  //     ];
+  
+  //     Plotly.newPlot('graph', data);
+  //   });
+  // });
 }

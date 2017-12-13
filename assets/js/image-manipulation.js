@@ -1,5 +1,20 @@
 "use strict"
 
+function drawImageToP(canvasId, image, width, height){
+  return new Promise((resolve, reject) => {
+    var canvas = document.getElementById(canvasId);
+    if(canvas===undefined) reject(canvasId + " not found");
+
+    canvas.width = width;
+    canvas.height = height;
+
+    var context = canvas.getContext('2d');
+    context.width = width;
+    context.height = height;
+    context.drawImage(image, 0, 0, width, height);
+    resolve('Image drawn');
+  });
+}
 
 function resizeImageP(image, newWidth, newHeight){
   return new Promise(function(resolve, reject){
