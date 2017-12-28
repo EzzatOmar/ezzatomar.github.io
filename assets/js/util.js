@@ -1,9 +1,6 @@
 "use strict"
 
 var scope = {};
-window.onload = function() {
-  console.log("window loaded");
-}
 
 function getLocalImage(e){
   return new Promise(function(resolve, reject){
