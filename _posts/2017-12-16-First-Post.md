@@ -10,8 +10,6 @@ Explaining why we know that someone is sad or angry is hard and not trivial at a
 To teach machines emotion detection, we simply need to feed a neural network with lots of facial expressions.  
 Lets solve this problem using CNN!
 
----
-
 
 ## Demo
 
