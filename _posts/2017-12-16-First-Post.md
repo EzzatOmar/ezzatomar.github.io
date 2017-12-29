@@ -3,6 +3,7 @@ layout: post
 title:  "Recognizing Emotions via Convolution Networks"
 date:   2017-12-16 11:49:01 +0000
 categories: jekyll update
+comments: true
 ---
 
 Humans can easily recognize the mood of a person by looking at them.  

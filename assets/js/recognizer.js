@@ -78,6 +78,7 @@ function detectFace(image){
 }
 
 function runRecognizer(){
+  console.log('runRecognizer');
   getImageFromCamP(scope.video)
   .then((image) => {
     return detectFace(image);
