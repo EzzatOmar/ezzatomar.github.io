@@ -3,6 +3,7 @@ layout: post
 title:  "Recognizing Emotions via Convolution Networks"
 date:   2017-12-16 11:49:01 +0000
 categories: jekyll update
+comments: true
 ---
 
 Humans can easily recognize the mood of a person by looking at them.  
@@ -161,6 +162,6 @@ function runRecognizer(){
 ```
 ## Result
 
-The overall accuracy is close to 50% for the testing set.
+The overall accuracy is close to 60% for the testing set.
 <img src='/assets/images/Results.png' style='width: 100%'/>
 <img src='/assets/images/confusionMatrix.png' style='width: 100%'/>

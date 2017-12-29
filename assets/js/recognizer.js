@@ -100,9 +100,9 @@ function runRecognizer(){
 }
 
 window.onload = function() {
-  const modelPath = '/assets/keras-models/model4Untouched.json';
-  const weightsPath = '/assets/keras-models/model4Untouched_weights.buf';
-  const metaDataPath = '/assets/keras-models/model4Untouched_metadata.json';
+  const modelPath = '/assets/keras-models/bestModel.json';
+  const weightsPath = '/assets/keras-models/bestModel_weights.buf';
+  const metaDataPath = '/assets/keras-models/bestModel_metadata.json';
   scope.kerasManager = new KerasManager(modelPath, weightsPath, metaDataPath);
   var emotions = ['Angry', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral'];
   scope.kerasManager.outputMap = emotions;
