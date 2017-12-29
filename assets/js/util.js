@@ -1,6 +1,9 @@
 "use strict"
 
 var scope = {};
+window.onload = function() {
+  console.log("window loaded");
+}
 
 function getLocalImage(e){
   return new Promise(function(resolve, reject){
@@ -36,51 +39,50 @@ function extractBase64FromString(str){
   return result[0];
 }
 
-// TODO: remove
-// function drawImgTo(canvasId, image, width, height, imageData){
-//     //TODO: edgecase imageData without width and height not working
-//     //TODO: Refactor resizeFactor
-//     return new Promise(function(resolve, reject){
-//       if(!image && !imageData){
-//         reject('no image or imageData provided');
-//       } 
-//       // console.log('draw1 to ' + canvasId);
-//       // console.log(image);
-//       var canvas = document.getElementById(canvasId);
-//       if(width){
-//         canvas.width = width;
-//       }else{
-//         var resizeFactor = (200 / image.width);
-//         canvas.width = image.width * resizeFactor;
-//       }
-//       if(height){
-//         canvas.height = height;
-//       }else{
-//         var resizeFactor = (200 / image.width);
-//         canvas.height = image.height * resizeFactor;
-//       }
-//       var ctx = canvas.getContext('2d');
-//       if(width){
-//         ctx.width = width;
-//       }else{
-//         var resizeFactor = (200 / image.width);
-//         ctx.width = image.width * resizeFactor;
-//       }
-//       if(height){
-//         ctx.height = height;
-//       }else{
-//         var resizeFactor = (200 / image.width);
-//         ctx.height = image.height * resizeFactor;
-//       }
-//       if(image){
-//         ctx.drawImage(image, 0, 0, ctx.width, ctx.height);
-//       } 
-//       if(imageData){
-//         ctx.putImageData(imageData, 0, 0);
-//       }
-//       resolve();
-//     });
-// }
+function drawImgTo(canvasId, image, width, height, imageData){
+    //TODO: edgecase imageData without width and height not working
+    //TODO: Refactor resizeFactor
+    return new Promise(function(resolve, reject){
+      if(!image && !imageData){
+        reject('no image or imageData provided');
+      } 
+      // console.log('draw1 to ' + canvasId);
+      // console.log(image);
+      var canvas = document.getElementById(canvasId);
+      if(width){
+        canvas.width = width;
+      }else{
+        var resizeFactor = (200 / image.width);
+        canvas.width = image.width * resizeFactor;
+      }
+      if(height){
+        canvas.height = height;
+      }else{
+        var resizeFactor = (200 / image.width);
+        canvas.height = image.height * resizeFactor;
+      }
+      var ctx = canvas.getContext('2d');
+      if(width){
+        ctx.width = width;
+      }else{
+        var resizeFactor = (200 / image.width);
+        ctx.width = image.width * resizeFactor;
+      }
+      if(height){
+        ctx.height = height;
+      }else{
+        var resizeFactor = (200 / image.width);
+        ctx.height = image.height * resizeFactor;
+      }
+      if(image){
+        ctx.drawImage(image, 0, 0, ctx.width, ctx.height);
+      } 
+      if(imageData){
+        ctx.putImageData(imageData, 0, 0);
+      }
+      resolve();
+    });
+}
 
 function darken(image){
   return new Promise(function(resolve, reject){
