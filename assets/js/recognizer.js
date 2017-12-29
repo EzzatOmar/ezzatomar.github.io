@@ -8,18 +8,6 @@ function getImageFromCamP(video){
     ctx.height = 240;
     ctx.drawImage(video, 0, 0);
 
-<<<<<<< HEAD
-=======
-    console.log("-----------");
-    console.log(video);
-    var tempCanvas = document.getElementById('canvas-to-detect');
-    // tempCanvas.width = 640;
-    // tempCanvas.heigth = 480;
-    var ctx2 = canvas.getContext("2d");
-    ctx2.width = 640;
-    ctx2.width = 480;
-    ctx2.drawImage(video, 0, 0, video.width, video.height);
->>>>>>> parent of 4d845d0... wip
     var img = new Image(ctx.width, ctx.height);
     img.onload = function() {
         resolve(img);
