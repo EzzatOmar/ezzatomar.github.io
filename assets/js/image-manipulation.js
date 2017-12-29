@@ -1,5 +1,19 @@
 "use strict"
 
+function drawImageToP(canvas, image, width, height){
+  console.log('drawImageToP', canvas, image, width, height);
+  return new Promise((resolve, reject) => {
+    if(canvas===undefined) reject(canvasId + " not found");
+    canvas.width = width;
+    canvas.height = height;
+
+    var context = canvas.getContext('2d');
+    context.width = width;
+    context.height = height;
+    context.drawImage(image, 0, 0, width, height);
+    resolve(canvas);
+  });
+}
 
 function resizeImageP(image, newWidth, newHeight){
   return new Promise(function(resolve, reject){
@@ -8,7 +22,7 @@ function resizeImageP(image, newWidth, newHeight){
     canvas.width = image.width;
     var ctx = canvas.getContext("2d");
     ctx.width = newWidth;
-    ctx.height = newHeigth;
+    ctx.height = newHeight;
     ctx.drawImage(image,0,0);
     var img = new Image(ctx.width, ctx.height);
     img.onload = function() {
@@ -24,7 +38,6 @@ function getGrayscaleData(image) {
     returns Uint8ClampedArray object 
     takes an image obj
   */
-  //TODO: check if image is already in grayscale
   return new Promise((resolve, reject) =>{
     var arr = [];
     var canvas = document.createElement("canvas");
